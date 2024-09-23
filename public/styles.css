@@ -1,0 +1,115 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+#gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* Estilo para las tarjetas */
+.card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.card:hover .date {
+    display: block;
+}
+
+.date {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.more-images {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.more-images:hover {
+    background-color: #0056b3;
+}
+
+/* Alinear la paginación a la derecha */
+.pagination-container {
+    display: flex; /* Usar flexbox para alinear los elementos */
+    justify-content: flex-end; /* Alinear a la derecha */
+    align-items: center; /* Centrar verticalmente */
+    margin-top: 20px; /* Espacio superior */
+}
+
+/* Información de paginación */
+.page-info {
+    margin-right: 10px; /* Espacio a la derecha del texto de información */
+}
+
+/* Botones de paginación */
+.page-btn {
+    margin: 0 5px; /* Espacio horizontal entre botones */
+    padding: 5px 10px; /* Espacio interno */
+}
+
+/* Estilos del modal */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Fijo */
+    z-index: 1; /* En la parte superior */
+    left: 0;
+    top: 0;
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Alto completo */
+    overflow: auto; /* Habilitar desplazamiento si es necesario */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo negro con opacidad */
+}
+
+.modal-content {
+    position: relative;
+    margin: 15% auto; /* Centrar el modal */
+    padding: 20px;
+    max-width: 400px; /* Ancho máximo reducido */
+}
+
+.modal img {
+    width: 100%; /* Ancho completo */
+    height: auto; /* Alto automático */
+}
+
+.close {
+    color: white;
+    float: right; /* Alinear a la derecha */
+    font-size: 28px; 
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb; 
+}

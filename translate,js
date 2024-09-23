@@ -1,0 +1,19 @@
+const translate = require('node-google-translate-skidz');
+
+// Función para traducir texto
+function traducirTexto(texto) {
+    return new Promise((resolve, reject) => {
+        translate({
+            text: texto,
+            target: 'es' // Código de idioma para español
+        }, (result) => {
+            if (result && result.translation) {
+                resolve(result.translation);
+            } else {
+                reject('Error en la traducción');
+            }
+        });
+    });
+}
+
+module.exports = { traducirTexto };
