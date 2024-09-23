@@ -2,6 +2,7 @@ let paginaActual = 1;
 const itemsPorPagina = 20;
 let totalObjetos = 0;
 
+// Cargar los departamentos al iniciar
 async function cargarDepartamentos() {
     try {
         const respuesta = await fetch('https://collectionapi.metmuseum.org/public/collection/v1/departments');
@@ -37,7 +38,7 @@ async function buscarObjetosDeArte(pagina = 1) {
         const localizacion = document.getElementById('location').value;
 
         if (palabraClave && !validarEntrada(palabraClave)) {
-            alert('Por favor, ingresa solo caracteres alfanuméricos en la palabra clave.');
+            alert('Por favor, ingresa solo letras y numeros en la palabra clave.');
             return;
         }
 
@@ -78,12 +79,27 @@ async function buscarObjetosDeArte(pagina = 1) {
 async function mostrarObjetosDeArte(objetos) {
     const galeria = document.getElementById('gallery');
     galeria.innerHTML = '';
+    
     for (let id of objetos) {
         try {
             const datosObjeto = await obtenerDatosObjeto(id);
             if (datosObjeto.primaryImage) { // Solo mostrar si hay imagen
-                const tarjeta = crearTarjeta(datosObjeto);
-                galeria.appendChild(tarjeta);
+                // Traducción del título, descripción, cultura y dinastía
+                const tituloTraducido = await traducirTexto(datosObjeto.title || 'Sin título');
+                const descripcionTraducida = await traducirTexto(datosObjeto.description || 'Sin descripción');
+                const culturaTraducida = await traducirTexto(datosObjeto.culture || 'Sin cultura');
+                const dinastiaTraducida = await traducirTexto(datosObjeto.dynasty || 'Sin dinastía');
+
+                // Crear tarjeta con los datos traducidos
+                const tarjeta = crearTarjeta({
+                    ...datosObjeto,
+                    title: tituloTraducido,
+                    description: descripcionTraducida,
+                    culture: culturaTraducida,
+                    dynasty: dinastiaTraducida
+                });
+                
+                galeria.appendChild(tarjeta); // Agregar la tarjeta a la galería
             }
         } catch (error) {
             console.error(`Error al obtener datos del objeto ${id}:`, error);
@@ -106,20 +122,21 @@ async function obtenerDatosObjeto(idObjeto) {
 function crearTarjeta(objeto) {
     const tarjeta = document.createElement('div');
     tarjeta.classList.add('card', 'border', 'rounded-lg', 'shadow-md', 'p-4', 'bg-white', 'm-3');
+    
     const imagenSrc = objeto.primaryImage || 'placeholder-image.png';
-    const titulo = objeto.title || 'Sin título';
-    const cultura = objeto.culture || 'Sin cultura';
-    const dinastía = objeto.dynasty || 'Sin dinastía';
     tarjeta.innerHTML = `
-        <img src="${imagenSrc}" alt="${titulo}" title="Fecha de creación: ${objeto.objectDate || 'Desconocida'}" class="w-full h-48 object-cover rounded-t-lg">
-        <h3 class="text-lg font-bold mt-2">${titulo}</h3>
-        <p class="text-sm">Cultura: ${cultura}</p>
-        <p class="text-sm">Dinastía: ${dinastía}</p>
-        <button onclick="mostrarMasImagenes(${objeto.objectID})" class="mt-2 text-blue-500 hover:underline">Ver más imágenes</button>
+        <img src="${imagenSrc}" alt="${objeto.title}" title="Fecha de creación: ${objeto.objectDate || 'Desconocida'}" class="w-full h-48 object-cover rounded-t-lg">
+        <h3 class="text-lg font-bold mt-2">${objeto.title}</h3>
+        <p class="text-sm">Cultura: ${objeto.culture || 'Sin cultura'}</p>
+        <p class="text-sm">Dinastía: ${objeto.dynasty || 'Sin dinastía'}</p>
+        
+       <button onclick="mostrarMasImagenes(${objeto.objectID})" class="mt-2 text-blue-500 hover:underline">Ver más imágenes</button>
     `;
-    return tarjeta;
+    
+    return tarjeta; // Retorna la tarjeta creada
 }
 
+// Funciones para paginación
 function actualizarPaginacion(actual) {
     const paginacion = document.getElementById('pagination');
     paginacion.innerHTML = '';
@@ -178,6 +195,19 @@ async function mostrarMasImagenes(idObjeto) {
         console.error('Error al mostrar imágenes adicionales:', error);
         alert('Error al cargar imágenes adicionales. Por favor, intenta más tarde.');
     }
+}
+
+// Función para traducir texto usando el endpoint de traducción del servidor
+async function traducirTexto(texto, sourceLang='en', targetLang='es') {
+   try {
+       const response = await fetch(`/api/translate?text=${encodeURIComponent(texto)}&source=${sourceLang}&target=${targetLang}`);
+       if (!response.ok) throw new Error("Error al traducir el texto");
+       const data = await response.json();
+       return data.translation; // Retornar la traducción
+   } catch (error) {
+       console.error("Error en la traducción:", error);
+       return texto; // Retornar el texto original en caso de error
+   }
 }
 
 // Cargar departamentos al iniciar
