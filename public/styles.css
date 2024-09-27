@@ -1,38 +1,45 @@
-/* styles.css */
-body {
-    font-family: Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap');
+
+html, body {
+    height: 100%;
     margin: 0;
-    padding: 20px;
 }
 
-header {
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
+    background-image: url("./images/images.jpg");
+    background-size: cover; /* Asegura que el degradado cubra todo el fondo */
+    background-position: center; /* Centra el degradado en el fondo */
+    background-repeat: no-repeat; /* Evita que el degradado se repita */
+    background-attachment:fixed;
+}
+
+.header {
     margin-bottom: 20px;
+    text-align: center; 
 }
 
-#gallery {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+
+.title-container {
+    border: 2px solid #e3e4e6;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgba(248, 249, 250, 0.8); 
+    backdrop-filter: blur(5px); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
-/* Estilo para las tarjetas */
-.card {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
+
+.title-container h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
     text-align: center;
-    position: relative;
 }
-
-.card img {
-    max-width: 100%;
-    height: auto;
-}
-
-.card:hover .date {
-    display: block;
-}
-
 .date {
     display: none;
     position: absolute;
@@ -58,58 +65,156 @@ header {
     background-color: #0056b3;
 }
 
-/* Alinear la paginación a la derecha */
-.pagination-container {
-    display: flex; /* Usar flexbox para alinear los elementos */
-    justify-content: flex-end; /* Alinear a la derecha */
-    align-items: center; /* Centrar verticalmente */
-    margin-top: 20px; /* Espacio superior */
-}
 
-/* Información de paginación */
-.page-info {
-    margin-right: 10px; /* Espacio a la derecha del texto de información */
-}
-
-/* Botones de paginación */
-.page-btn {
-    margin: 0 5px; /* Espacio horizontal entre botones */
-    padding: 5px 10px; /* Espacio interno */
-}
-
-/* Estilos del modal */
-.modal {
-    display: none; /* Oculto por defecto */
-    position: fixed; /* Fijo */
-    z-index: 1; /* En la parte superior */
-    left: 0;
-    top: 0;
-    width: 100%; /* Ancho completo */
-    height: 100%; /* Alto completo */
-    overflow: auto; /* Habilitar desplazamiento si es necesario */
-    background-color: rgba(0, 0, 0, 0.8); /* Fondo negro con opacidad */
-}
-
-.modal-content {
+.card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
     position: relative;
-    margin: 15% auto; /* Centrar el modal */
-    padding: 20px;
-    max-width: 400px; /* Ancho máximo reducido */
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    
+    background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+    color: #333; 
+
+   
+    perspective: 1000px; 
 }
 
-.modal img {
-    width: 100%; /* Ancho completo */
-    height: auto; /* Alto automático */
+.card:hover {
+    transform: translateY(-5px) rotateY(5deg) rotateX(5deg); 
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25); 
 }
 
-.close {
-    color: white;
-    float: right; /* Alinear a la derecha */
-    font-size: 28px; 
+.card img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.card h3 {
+    margin-top: 10px;
+    font-size: 18px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
-    color: #bbb; 
+.card p {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+
+
+
+
+.search-box {
+    border: 2px solid #e1e1e1; 
+    border-radius: 10px; 
+    padding: 15px; 
+    background-color: #cfc8c8; 
+    width: 90%; 
+    max-width: 800px; 
+    margin: 20px auto; 
+    font-family: 'Roboto', sans-serif; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 
+                0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+
+.filters {
+    display: flex; 
+    flex-direction: row;
+    align-items: stretch; 
+    gap: 10px;
+    width: 100%; 
+}
+
+.filters input,
+.filters select,
+.filters button {
+    min-width: 150px; 
+    padding: 10px; 
+    font-size: 14px; 
+}
+
+
+.filters select {
+    min-width: 250px; 
+}
+
+
+.filters button {
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    cursor: pointer; 
+}
+
+.filters button:hover {
+    background-color: #0056b3; 
+}
+#gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    flex-grow: 1; 
+}
+.popup-body {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+    margin: 0;
+    padding: 20px;
+}
+.popup-image {
+    max-width: 200px; 
+    height: auto; 
+    margin: 10px; 
+}
+
+.button {
+    margin: 5px; 
+    padding: 5px 10px; 
+    background-color: #007bff; 
+    color: white; 
+    border: none;
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 14px; 
+}
+
+.button:hover {
+    background-color: #0056b3; 
+}
+
+
+
+
+.footer {
+    border: 2px solid #ebeef1; 
+    border-radius: 10px; 
+    padding: 10px; 
+    background-color: rgba(248, 249, 250, 0.8); 
+    backdrop-filter: blur(5px); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    text-align: center; 
+    font-family: 'Roboto', sans-serif; 
+    margin-top: 20px; 
+}
+
+.footer p {
+    font-size: 14px; 
+    color: #333; 
+    margin: 0; 
 }

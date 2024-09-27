@@ -1,0 +1,27 @@
+doctype html
+html(lang="es")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0") 
+        title Museo Metropolitano de NY
+        link(rel="stylesheet", href="styles.css")
+
+    body
+        .header
+            .title-container
+                h1 Galería del Museo Metropolitano de New York
+        
+        .search-container
+            .search-box 
+                .filters
+                    input(type="text", id="keyword", placeholder="Ingrese su búsqueda", class="form-control")
+                    select(id="department", onchange="cargarDepartamentos()", class="form-select")
+                        option(value="") Seleccione un departamento
+                    input(type="text", id="location", placeholder="Localización", class="form-control")
+                    button(id="searchBtn") Buscar
+
+        #pagination.pagination(style="text-align:right;") 
+        
+        #gallery.gallery
+
+        script(defer, src="script.js")
